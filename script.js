@@ -1,4 +1,4 @@
-// PRIMO ESERCIZIO - USER
+// ----------------------------------------- PRIMO ESERCIZIO - USER --------------------------------------
 
 class User {
   constructor(_firstName, _lastName, _age, _location) {
@@ -37,11 +37,15 @@ const saveButton = document.querySelector("form button");
 const registro = [];
 
 class Pet {
-  constructor(_petName, _owneName, _species, _breed) {
+  constructor(_petName, _ownerName, _species, _breed) {
     this.petName = _petName;
-    this.owneName = _owneName;
+    this.ownerName = _ownerName;
     this.species = _species;
     this.breed = _breed;
+  }
+
+  sameOwner(anotherPet) {
+    return this.ownerName === anotherPet.ownerName;
   }
 }
 
@@ -56,7 +60,7 @@ const fillRowWithCards = function () {
             <div class="card-body">
                 <h5 class="card-title">Scheda utente</h5>
                 <h6 class="card-subtitle mb-2 text-body-secondary"> Nome animale: ${scheda.petName}</h6>
-                <h6 class="card-subtitle mb-2 text-body-secondary"> Nome propretario: ${scheda.owneName}</h6>
+                <h6 class="card-subtitle mb-2 text-body-secondary"> Nome propretario: ${scheda.ownerName}</h6>
                 <h6 class="card-subtitle mb-2 text-body-secondary">Specie: ${scheda.species}</h6>
                 <h6 class="card-subtitle mb-2 text-body-secondary">Razza: ${scheda.breed}</h6>
             </div>
@@ -76,6 +80,7 @@ formReference.addEventListener("submit", function (e) {
   e.preventDefault();
 
   const animaleregistrato = new Pet(
+    namePetInput.value,
     ownerPetInput.value,
     speciesInput.value,
     breedInput.value
@@ -84,4 +89,17 @@ formReference.addEventListener("submit", function (e) {
   console.log("CONTATTO CREATO", animaleregistrato);
   registro.push(animaleregistrato);
   fillRowWithCards();
+  checkSameOwner();
 });
+
+function checkSameOwner() {
+  for (let i = 0; i < registro.length - 1; i++) {
+    for (let j = i + 1; j < registro.length; j++) {
+      if (registro[i].sameOwner(registro[j])) {
+        console.log(
+          `${registro[i].petName} e ${registro[j].petName} condividono lo stesso padrone.`
+        );
+      }
+    }
+  }
+}
